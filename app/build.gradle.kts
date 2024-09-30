@@ -1,7 +1,11 @@
+import shadow.bundletool.com.android.tools.r8.internal.id
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt") // Añadir esta línea
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -60,6 +64,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -74,4 +79,8 @@ dependencies {
     // Agrega la dependencia de room-ktx para soporte de corrutinas
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$room_version")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.3.0"))
+    implementation("com.google.firebase:firebase-analytics")
+
 }

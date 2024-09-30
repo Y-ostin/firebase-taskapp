@@ -21,6 +21,7 @@ import androidx.room.Room
 import com.josuerdx.lab08.components.MyTabBarScreen
 import com.josuerdx.lab08.components.MyToolbar
 import com.josuerdx.lab08.data.database.TaskDatabase
+import com.josuerdx.lab08.data.firestore.FirestoreRepository
 import com.josuerdx.lab08.ui.theme.Lab08Theme
 import com.josuerdx.viewmodel.TaskViewModel
 import kotlinx.coroutines.launch
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Lab08Theme {
+                // Inicializa la base de datos Room
                 val db = Room.databaseBuilder(
                     applicationContext,
                     TaskDatabase::class.java,
@@ -38,7 +40,8 @@ class MainActivity : ComponentActivity() {
                 ).build()
 
                 val taskDao = db.taskDao()
-                val viewModel = TaskViewModel(taskDao)
+                val firestoreRepo = FirestoreRepository() // Instancia de FirestoreRepository
+                val viewModel = TaskViewModel(taskDao, firestoreRepo) // Pasar FirestoreRepository al ViewModel
 
                 // Toolbar - TabBar
                 Scaffold(
@@ -105,7 +108,6 @@ fun TaskScreen(viewModel: TaskViewModel) {
             },
             modifier = Modifier
                 .align(Alignment.BottomEnd) // Alinear en la parte inferior derecha
-
                 .padding(bottom = 90.dp, end = 16.dp)
         ) {
             Icon(Icons.Filled.Close, contentDescription = "Eliminar todas las tareas")
